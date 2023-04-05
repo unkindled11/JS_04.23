@@ -2,6 +2,7 @@
 
 function isTrue() {
   let sign = prompt("Please enter value");
+
   if (Math.sign(sign) == -1) {
     console.log("Incorrect input");
     return isTrue();
@@ -62,6 +63,29 @@ function delimiters(n) {
   return dlmtrs.join(" ");
 }
 
-isTrue();
-
 // === Task#2 ===
+
+function message() {
+  let symbol = prompt("Please enter symbol value");
+
+  if (symbol === "" || symbol === " ") {
+    console.log("Incorrect input");
+    return message();
+  } else if (symbol.length < 1 || symbol.length > 3) {
+    console.log("Incorrect symbol");
+    return message();
+  }
+  let row = prompt("Please enter number of rows");
+  if (row <= 0 || row >= 10) {
+    console.log("Incorrect row number");
+    return message();
+  } else if (isNaN(row)) {
+    console.log("Incorrect row number");
+    return message();
+  } else {
+    console.log(((symbol + " ").repeat(row) + "\n").repeat(row));
+  }
+}
+
+isTrue();
+message();
