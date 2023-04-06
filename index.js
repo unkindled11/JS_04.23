@@ -68,7 +68,7 @@ function delimiters(n) {
 function message() {
   let symbol = prompt("Please enter symbol value");
 
-  if (symbol === "" || symbol === " ") {
+  if (symbol === "" || symbol === " " || symbol.includes(" ")) {
     console.log("Incorrect input");
     return message();
   } else if (symbol.length < 1 || symbol.length > 3) {
@@ -87,5 +87,5 @@ function message() {
   }
 }
 
-isTrue();
+// isTrue();
 message();
