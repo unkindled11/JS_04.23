@@ -1,9 +1,7 @@
 // ===Task#1===
-function makeDeepClone(obj) {
+function makeDeepCopy(obj) {
   if (arguments.length === 0 || obj === null) {
     throw new Error("It's empty");
-  } else if (obj instanceof Array) {
-    throw new Error("It's an Array");
   } else if (obj == null || typeof obj !== "object") {
     return obj;
   }
@@ -17,6 +15,10 @@ function makeDeepClone(obj) {
     return new Boolean(obj);
   } else if (obj instanceof RegExp) {
     return new RegExp(obj);
+  } else if (obj instanceof Map) {
+    return new Map(obj);
+  } else if (obj instanceof Set) {
+    return new Set(obj);
   }
 
   let clone = {};
@@ -44,10 +46,22 @@ function selectFromInterval(arr, x, y) {
 }
 
 // ===Task#3===
-function creaateIterable(from, to) {
-  let obj = [];
-  for (let i = from; i <= to; i += 1) {
-    obj.push(i);
+function createIterable(from, to) {
+  if (typeof from !== "number" || typeof to !== "number" || to <= from) {
+    throw new Error();
   }
-  return new Set(obj);
+  return {
+    [Symbol.iterator]() {
+      let toReturn = from;
+      return {
+        next() {
+          if (toReturn <= to) {
+            return { done: false, value: toReturn++ };
+          } else {
+            return { done: true };
+          }
+        },
+      };
+    },
+  };
 }
