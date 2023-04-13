@@ -1,67 +1,24 @@
 // ===Task#1===
-function makeDeepCopy(obj) {
-  if (arguments.length === 0 || obj === null) {
-    throw new Error("It's empty");
-  } else if (obj == null || typeof obj !== "object") {
-    return obj;
+Array.prototype.customFilter = function (item, obj) {
+  let filtered = [];
+  for (let i = 0; i < this.length; i++) {
+    if (item.call(obj, this[i])) {
+      filtered.push(this[i]);
+    }
   }
-  if (obj instanceof Date) {
-    return new Date(obj);
-  } else if (obj instanceof String) {
-    return new String(obj);
-  } else if (obj instanceof Number) {
-    return new Number(obj);
-  } else if (obj instanceof Boolean) {
-    return new Boolean(obj);
-  } else if (obj instanceof RegExp) {
-    return new RegExp(obj);
-  } else if (obj instanceof Map) {
-    return new Map(obj);
-  } else if (obj instanceof Set) {
-    return new Set(obj);
-  }
-
-  let clone = {};
-
-  for (let key in obj) {
-    clone[key] = makeDeepClone(obj[key]);
-  }
-  return clone;
-}
-
+  return filtered;
+};
 // ===Task#2===
-function selectFromInterval(arr, x, y) {
-  if (
-    arr.length === 0 ||
-    arr.some((i) => typeof i !== "number") ||
-    typeof x != "number" ||
-    typeof y != "number"
-  ) {
-    throw new Error("xx");
-  } else if (x < y) {
-    return arr.filter((i) => i >= x && i <= y);
-  } else if (y < x) {
-    return arr.filter((i) => i >= y && i <= x);
-  }
-}
-
-// ===Task#3===
-function createIterable(from, to) {
-  if (typeof from !== "number" || typeof to !== "number" || to <= from) {
-    throw new Error();
-  }
-  return {
-    [Symbol.iterator]() {
-      let toReturn = from;
-      return {
-        next() {
-          if (toReturn <= to) {
-            return { done: false, value: toReturn++ };
-          } else {
-            return { done: true };
-          }
-        },
-      };
-    },
+function createDebounceFunction(func, delay) {
+  let customTimeout;
+  return function (args) {
+    clearTimeout(customTimeout);
+    customTimeout = setTimeout(() => {
+      func.apply(this.args);
+    }, delay);
   };
 }
+const log100 = () => console.log(100);
+const debounceLog100 = createDebounceFunction(log100, 3000);
+debounceLog100();
+setTimeout(debounceLog100, 2000);
