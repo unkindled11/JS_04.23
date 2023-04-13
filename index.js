@@ -11,14 +11,10 @@ Array.prototype.customFilter = function (item, obj) {
 // ===Task#2===
 function createDebounceFunction(func, delay) {
   let customTimeout;
-  return function (args) {
+  return function () {
     clearTimeout(customTimeout);
     customTimeout = setTimeout(() => {
-      func.apply(this.args);
+      func.apply(this);
     }, delay);
   };
 }
-const log100 = () => console.log(100);
-const debounceLog100 = createDebounceFunction(log100, 3000);
-debounceLog100();
-setTimeout(debounceLog100, 2000);
