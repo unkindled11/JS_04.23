@@ -1,67 +1,59 @@
 // ===Task#1===
-function makeDeepCopy(obj) {
-  if (arguments.length === 0 || obj === null) {
-    throw new Error("It's empty");
-  } else if (obj == null || typeof obj !== "object") {
-    return obj;
-  }
-  if (obj instanceof Date) {
-    return new Date(obj);
-  } else if (obj instanceof String) {
-    return new String(obj);
-  } else if (obj instanceof Number) {
-    return new Number(obj);
-  } else if (obj instanceof Boolean) {
-    return new Boolean(obj);
-  } else if (obj instanceof RegExp) {
-    return new RegExp(obj);
-  } else if (obj instanceof Map) {
-    return new Map(obj);
-  } else if (obj instanceof Set) {
-    return new Set(obj);
-  }
-
-  let clone = {};
-
-  for (let key in obj) {
-    clone[key] = makeDeepClone(obj[key]);
-  }
-  return clone;
+function curry(func) {
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function (...args2) {
+        return curried.apply(this, args.concat(args2));
+      };
+    }
+  };
 }
 
 // ===Task#2===
-function selectFromInterval(arr, x, y) {
-  if (
-    arr.length === 0 ||
-    arr.some((i) => typeof i !== "number") ||
-    typeof x != "number" ||
-    typeof y != "number"
-  ) {
-    throw new Error("xx");
-  } else if (x < y) {
-    return arr.filter((i) => i >= x && i <= y);
-  } else if (y < x) {
-    return arr.filter((i) => i >= y && i <= x);
+class Calculator {
+  constructor(x, y) {
+    if (typeof x !== "number" || typeof y !== "number") {
+      throw new Error("not a number");
+    }
+    this.x = x;
+    this.y = y;
+  }
+
+  setX(newX) {
+    if (typeof newX !== "number") {
+      throw new Error("not a number");
+    }
+    return (this.x = newX);
+  }
+  setY(newY) {
+    if (typeof newY !== "number") {
+      throw new Error("not a number");
+    }
+    return (this.y = newY);
+  }
+  getSum() {
+    return this.x + this.y;
+  }
+  getMul() {
+    return this.x * this.y;
+  }
+  getSub() {
+    return Math.abs(this.x - this.y);
+  }
+  getDiv() {
+    if (this.y === 0) {
+      throw new Error("y is 0 ");
+    }
+    return this.x / this.y;
   }
 }
 
-// ===Task#3===
-function createIterable(from, to) {
-  if (typeof from !== "number" || typeof to !== "number" || to <= from) {
-    throw new Error();
-  }
-  return {
-    [Symbol.iterator]() {
-      let toReturn = from;
-      return {
-        next() {
-          if (toReturn <= to) {
-            return { done: false, value: toReturn++ };
-          } else {
-            return { done: true };
-          }
-        },
-      };
-    },
-  };
-}
+const calculator = new Calculator(5, 3);
+
+console.log(calculator.getSum());
+console.log(calculator.getMul());
+console.log(calculator.getSub());
+console.log(calculator.getDiv());
+console.log(calculator.getSum());
