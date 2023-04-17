@@ -19,6 +19,12 @@ class Calculator {
     }
     this.x = x;
     this.y = y;
+    this.setX = this.setX.bind(this);
+    this.setY = this.setY.bind(this);
+    this.getSum = this.getSum.bind(this);
+    this.getMul = this.getMul.bind(this);
+    this.getSub = this.getSub.bind(this);
+    this.getDiv = this.getDiv.bind(this);
   }
 
   setX(newX) {
@@ -50,10 +56,39 @@ class Calculator {
   }
 }
 
-const calculator = new Calculator(5, 3);
+// ===Task#3===
+class RickAndMorty {
+  getCharachter(id) {
+    if (id === null || !isFinite(id)) {
+      throw new Error();
+    }
+    return fetch(`https://rickandmortyapi.com/api/character/${id}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.error) {
+          return null;
+        }
+        return data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
 
-console.log(calculator.getSum());
-console.log(calculator.getMul());
-console.log(calculator.getSub());
-console.log(calculator.getDiv());
-console.log(calculator.getSum());
+  async getEpisode(id) {
+    if (id === null || !isFinite(id)) {
+      throw new Error();
+    }
+    try {
+      const res = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
+      const data = await res.json();
+      if (data.error) {
+        return null;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+}
